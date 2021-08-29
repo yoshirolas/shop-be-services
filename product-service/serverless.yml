@@ -57,14 +57,14 @@ provider:
 
 functions:
   getProductsList:
-    handler: handler.products 
+    handler: ./handlers/getProductsList.products
     events:
       - http:
           path: products
           method: get
           cors: true
   getProductById:
-    handler: handler.product 
+    handler: ./handlers/getProductById.product
     events:
       - http: 
           path: products/{productId}
