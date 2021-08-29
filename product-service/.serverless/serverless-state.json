@@ -180,7 +180,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/shop-be-services/dev/1630250997753-2021-08-29T15:29:57.753Z/shop-be-services.zip"
+                "S3Key": "serverless/shop-be-services/dev/1630251519627-2021-08-29T15:38:39.627Z/shop-be-services.zip"
               },
               "Handler": "handler.products",
               "Runtime": "nodejs12.x",
@@ -205,7 +205,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/shop-be-services/dev/1630250997753-2021-08-29T15:29:57.753Z/shop-be-services.zip"
+                "S3Key": "serverless/shop-be-services/dev/1630251519627-2021-08-29T15:38:39.627Z/shop-be-services.zip"
               },
               "Handler": "handler.product",
               "Runtime": "nodejs12.x",
@@ -223,24 +223,24 @@
               "GetProductByIdLogGroup"
             ]
           },
-          "GetProductsListLambdaVersionsBVCBb5RUlvStrQcnPqLc0FJWRx2gbw4BMtFOBS3PCg": {
+          "GetProductsListLambdaVersionZkPAu0uhNANb1sVVxEQVNvPfQqnHR6S9KYWU1pLHqQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetProductsListLambdaFunction"
               },
-              "CodeSha256": "4s8h/1CJRwEncY3+IaXbFBhB/pduZ2wu/9Rf9jmYKRE="
+              "CodeSha256": "cNLtssCVkde7JN84kolSM5KrRy/qv+frPafIxOBwRgo="
             }
           },
-          "GetProductByIdLambdaVersiontcHHMJMxrmNRdt0gM8kWNvIXVQ1n0cRkeMshF6won04": {
+          "GetProductByIdLambdaVersionsB27WCe4jnJu1iQpM5mvoPkixRn11dJq3iQf4iTAo": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetProductByIdLambdaFunction"
               },
-              "CodeSha256": "4s8h/1CJRwEncY3+IaXbFBhB/pduZ2wu/9Rf9jmYKRE="
+              "CodeSha256": "cNLtssCVkde7JN84kolSM5KrRy/qv+frPafIxOBwRgo="
             }
           },
           "ApiGatewayRestApi": {
@@ -479,7 +479,7 @@
               "GetProductByIdLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1630250996809": {
+          "ApiGatewayDeployment1630251518575": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -581,7 +581,7 @@
           "GetProductsListLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetProductsListLambdaVersionsBVCBb5RUlvStrQcnPqLc0FJWRx2gbw4BMtFOBS3PCg"
+              "Ref": "GetProductsListLambdaVersionZkPAu0uhNANb1sVVxEQVNvPfQqnHR6S9KYWU1pLHqQ"
             },
             "Export": {
               "Name": "sls-shop-be-services-dev-GetProductsListLambdaFunctionQualifiedArn"
@@ -590,7 +590,7 @@
           "GetProductByIdLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetProductByIdLambdaVersiontcHHMJMxrmNRdt0gM8kWNvIXVQ1n0cRkeMshF6won04"
+              "Ref": "GetProductByIdLambdaVersionsB27WCe4jnJu1iQpM5mvoPkixRn11dJq3iQf4iTAo"
             },
             "Export": {
               "Name": "sls-shop-be-services-dev-GetProductByIdLambdaFunctionQualifiedArn"
@@ -746,7 +746,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "GetProductsListLambdaVersionsBVCBb5RUlvStrQcnPqLc0FJWRx2gbw4BMtFOBS3PCg"
+        "versionLogicalId": "GetProductsListLambdaVersionZkPAu0uhNANb1sVVxEQVNvPfQqnHR6S9KYWU1pLHqQ"
       },
       "getProductById": {
         "handler": "handler.product",
@@ -784,7 +784,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "GetProductByIdLambdaVersiontcHHMJMxrmNRdt0gM8kWNvIXVQ1n0cRkeMshF6won04"
+        "versionLogicalId": "GetProductByIdLambdaVersionsB27WCe4jnJu1iQpM5mvoPkixRn11dJq3iQf4iTAo"
       }
     },
     "configValidationMode": "warn",
@@ -806,7 +806,7 @@
     "artifact": "C:\\_other-projects\\rs-aws\\shop-be-services\\product-service\\.serverless\\shop-be-services.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/shop-be-services/dev/1630250997753-2021-08-29T15:29:57.753Z",
+    "artifactDirectoryName": "serverless/shop-be-services/dev/1630251519627-2021-08-29T15:38:39.627Z",
     "artifact": "shop-be-services.zip"
   }
 }
