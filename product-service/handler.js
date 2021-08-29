@@ -17,20 +17,20 @@ module.exports.products = async (event) => {
 };
 
 module.exports.product = async (event) => {
-  const { id } = event.pathParameters;
+  const { productId } = event.pathParameters;
 
-  if (!id) {
+  if (!productId) {
     return {
       statusCode: 400,
       body: 'Error! Please use the following path structure: /product/{id}'
     };
   }
   
-  const product = products.find(p => p.id === id);
+  const product = products.find(p => p.id === productId);
   if (!product) {
     return {
       statusCode: 404,
-      body: `Error! Couldn't find product with id ${id}`
+      body: `Error! Couldn't find product with id ${productId}`
     };
   }
   return {
