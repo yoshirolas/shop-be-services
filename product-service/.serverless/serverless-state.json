@@ -180,7 +180,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/shop-be-services/dev/1630248012409-2021-08-29T14:40:12.409Z/shop-be-services.zip"
+                "S3Key": "serverless/shop-be-services/dev/1630250997753-2021-08-29T15:29:57.753Z/shop-be-services.zip"
               },
               "Handler": "handler.products",
               "Runtime": "nodejs12.x",
@@ -205,7 +205,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/shop-be-services/dev/1630248012409-2021-08-29T14:40:12.409Z/shop-be-services.zip"
+                "S3Key": "serverless/shop-be-services/dev/1630250997753-2021-08-29T15:29:57.753Z/shop-be-services.zip"
               },
               "Handler": "handler.product",
               "Runtime": "nodejs12.x",
@@ -223,24 +223,24 @@
               "GetProductByIdLogGroup"
             ]
           },
-          "GetProductsListLambdaVersionSrg32Lku0Hi2gvOCfSidTk7ebBSKFFrHgkzWdKwiNk": {
+          "GetProductsListLambdaVersionsBVCBb5RUlvStrQcnPqLc0FJWRx2gbw4BMtFOBS3PCg": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetProductsListLambdaFunction"
               },
-              "CodeSha256": "O7j2hc0/t5a4rNYleDdb0/L6bBh7OcK9h9HS87en4zY="
+              "CodeSha256": "4s8h/1CJRwEncY3+IaXbFBhB/pduZ2wu/9Rf9jmYKRE="
             }
           },
-          "GetProductByIdLambdaVersion7K31NRinTlB2wWc3n7oEIejOCEE3HAi4WjJ9CAfI4A": {
+          "GetProductByIdLambdaVersiontcHHMJMxrmNRdt0gM8kWNvIXVQ1n0cRkeMshF6won04": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetProductByIdLambdaFunction"
               },
-              "CodeSha256": "O7j2hc0/t5a4rNYleDdb0/L6bBh7OcK9h9HS87en4zY="
+              "CodeSha256": "4s8h/1CJRwEncY3+IaXbFBhB/pduZ2wu/9Rf9jmYKRE="
             }
           },
           "ApiGatewayRestApi": {
@@ -292,6 +292,96 @@
                 "Ref": "ApiGatewayResourceProduct"
               },
               "PathPart": "{id}",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodProductsOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".+\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceProducts"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodProductIdVarOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".+\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceProductIdVar"
+              },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -389,7 +479,7 @@
               "GetProductByIdLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1630248011496": {
+          "ApiGatewayDeployment1630250996809": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -398,6 +488,8 @@
               "StageName": "dev"
             },
             "DependsOn": [
+              "ApiGatewayMethodProductsOptions",
+              "ApiGatewayMethodProductIdVarOptions",
               "ApiGatewayMethodProductsGet",
               "ApiGatewayMethodProductIdVarGet"
             ]
@@ -489,7 +581,7 @@
           "GetProductsListLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetProductsListLambdaVersionSrg32Lku0Hi2gvOCfSidTk7ebBSKFFrHgkzWdKwiNk"
+              "Ref": "GetProductsListLambdaVersionsBVCBb5RUlvStrQcnPqLc0FJWRx2gbw4BMtFOBS3PCg"
             },
             "Export": {
               "Name": "sls-shop-be-services-dev-GetProductsListLambdaFunctionQualifiedArn"
@@ -498,7 +590,7 @@
           "GetProductByIdLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetProductByIdLambdaVersion7K31NRinTlB2wWc3n7oEIejOCEE3HAi4WjJ9CAfI4A"
+              "Ref": "GetProductByIdLambdaVersiontcHHMJMxrmNRdt0gM8kWNvIXVQ1n0cRkeMshF6won04"
             },
             "Export": {
               "Name": "sls-shop-be-services-dev-GetProductByIdLambdaFunctionQualifiedArn"
@@ -625,6 +717,25 @@
             "http": {
               "path": "products",
               "method": "get",
+              "cors": {
+                "origins": [
+                  "*"
+                ],
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "GET"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
               "integration": "AWS_PROXY"
             }
           }
@@ -635,7 +746,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "GetProductsListLambdaVersionSrg32Lku0Hi2gvOCfSidTk7ebBSKFFrHgkzWdKwiNk"
+        "versionLogicalId": "GetProductsListLambdaVersionsBVCBb5RUlvStrQcnPqLc0FJWRx2gbw4BMtFOBS3PCg"
       },
       "getProductById": {
         "handler": "handler.product",
@@ -644,6 +755,25 @@
             "http": {
               "path": "product/{id}",
               "method": "get",
+              "cors": {
+                "origins": [
+                  "*"
+                ],
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "GET"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
               "integration": "AWS_PROXY"
             }
           }
@@ -654,7 +784,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "GetProductByIdLambdaVersion7K31NRinTlB2wWc3n7oEIejOCEE3HAi4WjJ9CAfI4A"
+        "versionLogicalId": "GetProductByIdLambdaVersiontcHHMJMxrmNRdt0gM8kWNvIXVQ1n0cRkeMshF6won04"
       }
     },
     "configValidationMode": "warn",
@@ -676,7 +806,7 @@
     "artifact": "C:\\_other-projects\\rs-aws\\shop-be-services\\product-service\\.serverless\\shop-be-services.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/shop-be-services/dev/1630248012409-2021-08-29T14:40:12.409Z",
+    "artifactDirectoryName": "serverless/shop-be-services/dev/1630250997753-2021-08-29T15:29:57.753Z",
     "artifact": "shop-be-services.zip"
   }
 }

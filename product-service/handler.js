@@ -1,10 +1,18 @@
 'use strict';
-const {products} = require('./product-mock-data/products')
+
+const { products } = require('./product-mock-data/products')
+const corsHeaders = {
+  headers: {
+    'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+    'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTPS
+  }
+}
 
 module.exports.products = async (event) => {
   return {
     statusCode: 200,
-    body: JSON.stringify(products)
+    body: JSON.stringify(products),
+    ...corsHeaders
   };
 };
 
