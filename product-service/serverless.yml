@@ -44,8 +44,7 @@ provider:
 #            - "/*"
 
 # you can define service wide environment variables here
-#  environment:
-#    variable1: value1
+
 
 # you can add packaging information here
 #package:
@@ -70,6 +69,14 @@ functions:
           path: products/{productId}
           method: get
           cors: true
+  addProduct:
+    handler: ./handlers/addProduct.invoke
+    events:
+      - http: 
+          path: products/
+          method: post
+          cors: true
+
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
