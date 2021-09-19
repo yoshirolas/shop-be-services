@@ -8,6 +8,8 @@ const corsHeaders = {
     }
 };
 
+const { validateProductData } = require('../products-data/productDataValidation');
+
 const { Client } = require('pg');
 const { PGHOST, PGUSER, PGDATABASE, PGPASSWORD, PGPORT } = process.env;
 const dbOption = {
@@ -28,15 +30,15 @@ module.exports.invoke = async (event) => {
         if (!body) throw new ApiError(400, 'Not valid data');
 
         const { title, description, count, price } = JSON.parse(body);
-        if (!title || !description || !count || !price) throw new ApiError(400, 'Not valid data');
         const product = {
             title, 
             description, 
-            count: Number(count),
-            price: Number(price)
+            count,
+            price
         };
 
-        //TODO: add product schema validation
+        const { error, value } = validateProductData(product);
+        if (error) throw new ApiError(400, 'Not valid data');
 
         const { rows } = await client.query(
             `insert into products (title, description, price) values ('${product.title}', '${product.description}', ${product.price}) RETURNING id`

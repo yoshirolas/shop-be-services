@@ -6,6 +6,7 @@
   "dependencies": {
     "babel-loader": "^8.2.2",
     "jest": "^27.1.0",
+    "joi": "^17.4.2",
     "pg": "^8.7.1",
     "serverless-webpack": "^5.5.2",
     "ts-loader": "^9.2.5",
