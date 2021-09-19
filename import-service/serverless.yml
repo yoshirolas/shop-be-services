@@ -1,0 +1,31 @@
+service: import-service
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  stage: dev
+  region: eu-west-1
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action: 's3:ListBucket'
+          Resource: 'arn:aws:s3:::uploaded-42'
+        - Effect: 'Allow'
+          Action: 's3:PutObject'
+          Resource: 'arn:aws:s3:::uploaded-42/*'
+
+
+functions:
+  importProductsFile:
+    handler: ./handlers/importProductsFile.invoke
+    events:
+      - http:
+          path: /import
+          method: get
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                name: true
