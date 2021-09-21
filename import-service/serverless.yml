@@ -13,7 +13,7 @@ provider:
           Action: 's3:ListBucket'
           Resource: 'arn:aws:s3:::uploaded-42'
         - Effect: 'Allow'
-          Action: 's3:PutObject'
+          Action: 's3:*'
           Resource: 'arn:aws:s3:::uploaded-42/*'
 
 
@@ -29,3 +29,13 @@ functions:
             parameters:
               querystrings:
                 name: true
+  importFileParser:
+    handler: ./handlers/importFileParser.invoke
+    events:
+      - s3:
+          bucket: uploaded-42
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploaded/
+            - suffix: .csv
+          existing: true
