@@ -31,6 +31,12 @@ module.exports.invoke = async (event) => {
                         Key: record.s3.object.key.replace('uploaded', 'parsed')
                     }).promise();
                     console.log(`Copy to: ${BUCKET}/${record.s3.object.key.replace('uploaded', 'parsed')}`);
+
+                    await s3.deleteObject({
+                        Bucket: BUCKET,
+                        Key: record.s3.object.key
+                    }).promise();
+                    console.log(`File has been permanently deleted: ${record.s3.object.key}`);
                     res();
                 })
                 .on('error', (data) => {
