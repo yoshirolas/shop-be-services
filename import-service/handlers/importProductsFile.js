@@ -10,23 +10,29 @@ const corsHeaders = {
 };
 
 module.exports.invoke = async (event) => {
+    try {
+        const { name } = event.queryStringParameters;
+        const catalogPath = `uploaded/${name}`;
+        const params = {
+            Bucket: BUCKET,
+            Key: catalogPath,
+            ContentType: 'text/csv'
+        };
+    
+        const url = await s3.getSignedUrlPromise('putObject', params);
+        
+        if (!url) throw new Error();
 
-    const { name } = event.queryStringParameters;
-    const catalogPath = `uploaded/${name}`;
-    const params = {
-        Bucket: BUCKET,
-        Key: catalogPath,
-        ContentType: 'text/csv'
-    };
-
-    return new Promise((resolve, reject) => {
-        s3.getSignedUrl('putObject', params, (err, url) => {
-            if (err) reject(err);
-            if (url) resolve({
-                statusCode: 200,
-                body: JSON.stringify(url),
-                ...corsHeaders
-            });
-        })
-    });
+        return {
+            statusCode: 200,
+            body: JSON.stringify(url),
+            ...corsHeaders
+        }
+    } catch (error) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify(error),
+            ...corsHeaders
+        }
+    }
 };
