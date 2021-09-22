@@ -37,11 +37,11 @@ module.exports.invoke = async (event) => {
                         Key: record.s3.object.key
                     }).promise();
                     console.log(`File has been permanently deleted: ${record.s3.object.key}`);
-                    res();
+                    res(200);
                 })
                 .on('error', (data) => {
                     console.log('On error: ', data);
-                    rej(data);
+                    rej(500);
                 })
                 .on('close', (data) => {
                     console.log('On close', data);
