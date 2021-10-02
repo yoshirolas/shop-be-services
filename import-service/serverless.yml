@@ -6,6 +6,9 @@ provider:
   lambdaHashingVersion: 20201221
   stage: dev
   region: eu-west-1
+  environment:
+    SQS_URL:
+      Ref: catalogItemsQueue
   iam:
     role:
       statements:
@@ -15,7 +18,19 @@ provider:
         - Effect: 'Allow'
           Action: 's3:*'
           Resource: 'arn:aws:s3:::uploaded-42/*'
+        - Effect: 'Allow'
+          Action: 'sqs:*'
+          Resource: 
+            Fn::GetAtt:
+              - catalogItemsQueue
+              - Arn
 
+resources:
+  Resources:
+    catalogItemsQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: 'catalogItemsQueue'
 
 functions:
   importProductsFile:
@@ -39,3 +54,12 @@ functions:
             - prefix: uploaded/
             - suffix: .csv
           existing: true
+  catalogBatchProcess:
+    handler: ./handlers/catalogBatchProcess.invoke
+    events:
+      - sqs:
+          batchSize: 5
+          arn:
+            Fn::GetAtt:
+              - catalogItemsQueue
+              - Arn
