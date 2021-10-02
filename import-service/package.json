@@ -18,6 +18,8 @@
   "homepage": "https://github.com/yoshirolas/shop-be-services#readme",
   "dependencies": {
     "aws-sdk": "^2.991.0",
-    "csv-parser": "^3.0.0"
+    "csv-parser": "^3.0.0",
+    "joi": "^17.4.2",
+    "pg": "^8.7.1"
   }
 }
