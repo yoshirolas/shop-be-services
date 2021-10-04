@@ -1,6 +1,6 @@
 const { validateProductData } = require('../utils/productDataValidation');
 const { Client } = require('pg');
-const { PGHOST, PGUSER, PGDATABASE, PGPASSWORD, PGPORT } = process.env;
+const { PGHOST, PGUSER, PGDATABASE, PGPASSWORD, PGPORT, SNS_ARN } = process.env;
 const dbOption = {
   user: PGUSER,
   host: PGHOST,
@@ -8,6 +8,7 @@ const dbOption = {
   password: PGPASSWORD,
   port: PGPORT,
 };
+const AWS = require('aws-sdk');
 
 module.exports.invoke = async (event) => {
 
@@ -15,11 +16,9 @@ module.exports.invoke = async (event) => {
     client.connect();
 
     try {
-        const { Records } = event;
+        const { Records } = event;     
         for (const record of Records) {
-
             const product = JSON.parse(record.body)
-            console.log('product', product);
             //TODO: validate data
             // const { error, value } = validateProductData(product);
             // if (error) throw new Error('Not valid data');
@@ -33,8 +32,21 @@ module.exports.invoke = async (event) => {
                 `insert into stocks (product_id, count) values ('${product_id}', ${product.count})`
             );
 
-            console.log('Product were added into DB')
+            console.log('Product were added into DB');
         }
+
+        return new Promise((resolve, reject) => {
+            const sns = new AWS.SNS({ region: 'eu-west-1' });
+            sns.publish({
+                Subject: 'catalog batch upload',
+                Message: 'New products were uploaded into DB',
+                TopicArn: SNS_ARN
+            }, (error, data) => {
+                if (error) reject();
+                console.log('Email has been sent');
+                resolve();
+            });
+        })
 
     } catch (error) {
         console.log(error)

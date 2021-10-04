@@ -9,6 +9,9 @@ provider:
   environment:
     SQS_URL:
       Ref: catalogItemsQueue
+    SNS_ARN:
+      Ref: createProductTopic
+
   iam:
     role:
       statements:
@@ -24,6 +27,10 @@ provider:
             Fn::GetAtt:
               - catalogItemsQueue
               - Arn
+        - Effect: 'Allow'
+          Action: 'sns:*'
+          Resource:
+            Ref: createProductTopic
 
 resources:
   Resources:
@@ -31,6 +38,17 @@ resources:
       Type: "AWS::SQS::Queue"
       Properties:
         QueueName: 'catalogItemsQueue'
+    createProductTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: createProductTopic
+    createProductSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: example@tut.by
+        Protocol: email
+        TopicArn:
+          Ref: createProductTopic
 
 functions:
   importProductsFile:
