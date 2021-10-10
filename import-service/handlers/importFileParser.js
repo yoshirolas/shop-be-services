@@ -7,6 +7,7 @@ const BUCKET = 'uploaded-42';
 module.exports.invoke = async (event) => {
 
     const { Records } = event;
+    const sqs = new AWS.SQS();
 
     for (const record of Records) {
         return new Promise((res, rej) => {
@@ -21,8 +22,16 @@ module.exports.invoke = async (event) => {
                 .pipe(csv())
                 .on('data', (data) => {
                     console.log('On data', data);
+                    sqs.sendMessage({
+                        QueueUrl: process.env.SQS_URL,
+                        MessageBody: JSON.stringify(data)
+                    }, (error, data) => {
+                        console.log('Send Message');
+                        if (error) console.log(error);
+                        if (data ) console.log(data);
+                    });
                 })
-                .on('end', async () => {
+                .on('end', async (data) => {
                     console.log('On end');
                     console.log(`Copy from: ${BUCKET}/${record.s3.object.key}`);
                     await s3.copyObject({
