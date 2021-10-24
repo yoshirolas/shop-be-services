@@ -49,6 +49,24 @@ resources:
         Protocol: email
         TopicArn:
           Ref: createProductTopic
+    GatewayResponseDefault4XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+    GatewayResponseDefault5XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: DEFAULT_5XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
 
 functions:
   importProductsFile:
@@ -58,6 +76,12 @@ functions:
           path: /import
           method: get
           cors: true
+          authorizer:
+            name: tokenAuthorizer
+            type: token
+            arn: "arn:aws:lambda:eu-west-1:592443183309:function:authorization-service-dev-basicAuthorizer"
+            identitySource: method.request.header.Authorization
+            resultTtlInSeconds: 0
           request:
             parameters:
               querystrings:
