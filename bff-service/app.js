@@ -11,6 +11,33 @@ const services = [
     }
 ];
 
+const CACHE_LIVE_TIME_MS = 2 * 60 * 1000; //2 minutes
+
+class Cache {
+    constructor() {
+        this.expiredDate = null;
+        this.data = null;
+    }
+
+    isActual = () => this.expiredDate && Date.now() <= this.expiredDate;
+
+    getData = () => {
+        return this.isActual() && this.data ? this : {};
+    };
+
+    setData = (data) => {
+        this.data = data;
+        this.expiredDate = Date.now() + CACHE_LIVE_TIME_MS
+    };
+};
+const cachedQuery = {
+    method: 'GET',
+    path: '/products'
+};
+const isCachedQuery = (method, path) => method === cachedQuery.method && path === cachedQuery.path;
+
+const productsCahce = new Cache();
+
 app.use(express.json());
 
 app.all('*', async (req, res) => {
@@ -23,11 +50,18 @@ app.all('*', async (req, res) => {
         if (!recipientService) throw new Error();
 
         const getUrl = () => `${recipientService.serviceUrl}${path}`;
-        const serviceResponse = await axios({
-            method: method,
-            url: getUrl(),
-            data: Object.keys(body).length > 0 ? body : null
-        });
+
+        const serviceResponse = isCachedQuery(method, path) && productsCahce.isActual()
+            ? productsCahce.getData()
+            : await axios({
+                method: method,
+                url: getUrl(),
+                data: Object.keys(body).length > 0 ? body : null
+            });
+
+        if (isCachedQuery(method, path) && !productsCahce.isActual()) {
+            productsCahce.setData(serviceResponse.data);
+        }
 
         res.send(JSON.stringify(serviceResponse.data));
 
